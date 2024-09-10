@@ -21,19 +21,7 @@ def create_tasks(request):
     else:    
         Task_list.objects.create(name= request.POST['name'], description = request.POST['description'] ,date_end= request.POST['date_end'])
         return redirect('/Tareas')
-    
-def task_detail(request, id):
-    task = get_object_or_404(Task_list, id=id)
-    task_data = {
-        'id': task.id,
-        'name': task.name,
-        'description': task.description,
-        'date_start': task.date_start,
-        'date_end': task.date_end,
-        'hour_end': task.hour_end,
-        'completada': task.completada,
-    }
-    
+
 
 def delete_tasks(request, id):    
     task = get_object_or_404(Task_list, id=id)
@@ -42,7 +30,6 @@ def delete_tasks(request, id):
     return render(request, 'task.html', {
         'projects' : projects
     })
-
 
 def update_task(request, task_id):
     if request.method == 'GET':
@@ -57,4 +44,11 @@ def update_task(request, task_id):
         return redirect("/Tareas")
         # return JsonResponse({"message": f"Tarea {task_id} cambiada"})
     
-    
+def change_state_task(request, task_id):
+    task = get_object_or_404(Task_list, id=task_id)
+    task.completada = not task.completada
+    task.save()
+    projects = list(Task_list.objects.values())
+    return render(request, 'task.html', {
+        'projects' : projects
+    })

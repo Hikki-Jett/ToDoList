@@ -11,7 +11,16 @@
     <p>🚩{{project.description}}</p>
     <p>🟢 Fecha Inicio: {{project.date_start}}</p>
     <p>🔴 Fecha Limite: {{project.date_end}}</p>
-    <p>Completar <input type="checkbox" name="Completar" id=""></p>
+    <form action="{% url 'Marcar_tarea' task_id=project.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn">
+            {% if project.completada == False %}
+            <span>❌</span>
+            {% else %}
+            <span>✅</span>
+            {%endif%}
+        </button>
+    </form>
     
     {% if project.completada == False %}
     <p>Tarea Sin Finalizar</p>
