@@ -1,0 +1,9 @@
+*.pyc
+pycache/
+*.pyo
+*.pyd
+venv/
+env/
+db.sqlite3
+*/migrations/.py
+*/migrations/.pyc

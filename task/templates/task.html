@@ -1,0 +1,32 @@
+{% extends "base.html"%}
+{% block content %}
+
+<h1>Proyectos</h1>
+
+{% for project in projects %}
+
+<div>
+
+    <h2>⚫ {{project.name}}</h2>
+    <p>🚩{{project.description}}</p>
+    <p>🟢 Fecha Inicio: {{project.date_start}}</p>
+    <p>🔴 Fecha Limite: {{project.date_end}}</p>
+    <p>Completar <input type="checkbox" name="Completar" id=""></p>
+    
+    {% if project.completada == False %}
+    <p>Tarea Sin Finalizar</p>
+    {% else %}
+    <p>Tarea Finalizada</p>
+    {%endif%}
+    
+    <form action="{% url 'Actualizar_Tarea' id=project.id %}" method="get">
+        <button type="submit" class="btn">Actualizar Tarea</button>
+    </form>
+    <form action="{% url 'Eliminar_Tarea' id=project.id %}" method="get">
+        <button type="submit" class="btn">Eliminar Tarea</button>
+    </form>
+
+</div>
+
+{% endfor %}
+{% endblock%}
