@@ -19,10 +19,11 @@
     <p>Tarea Finalizada</p>
     {%endif%}
     
-    <form action="{% url 'Actualizar_Tarea' id=project.id %}" method="get">
+    <form action="{% url 'Actualizar_Tarea' task_id=project.id %}" method="get">
         <button type="submit" class="btn">Actualizar Tarea</button>
     </form>
-    <form action="{% url 'Eliminar_Tarea' id=project.id %}" method="get">
+    <form action="{% url 'Eliminar_Tarea' id=project.id %}" method="POST">
+        {% csrf_token %}
         <button type="submit" class="btn">Eliminar Tarea</button>
     </form>
 

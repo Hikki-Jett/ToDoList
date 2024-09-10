@@ -23,6 +23,6 @@ urlpatterns = [
     path('', main,name='main'),
     path('Tareas', task, name='task' ),
     path('Crear', create_tasks, name='crear_tasks'),
-    path('Actualizar_Tarea/<int:id>', update_task, name= 'Actualizar_Tarea'),
+    path('Actualizar_Tarea/<int:task_id>', update_task, name= 'Actualizar_Tarea'),
     path('Eliminar_Tarea/<int:id>', delete_tasks, name='Eliminar_Tarea')
 ]

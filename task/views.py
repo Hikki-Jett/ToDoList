@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Task_list
 from .forms import CreateTask, UpdateTask, DeleteTask
 
@@ -33,47 +33,28 @@ def task_detail(request, id):
         'hour_end': task.hour_end,
         'completada': task.completada,
     }
-        
-
-
-def update_task(request, id):
-    if request.method == 'GET':
-        task = get_object_or_404(Task_list, id = id)
-        return render(request, 'update_task.html',{
-            'form': UpdateTask()
-        })
-    else:
-        form = UpdateTask(request.POST)
-        if form.is_valid():
-            task_id = form.cleaned_data['task_id']
-            task = get_object_or_404(Task_list, id=task_id)
-            task.name = form.cleaned_data['name']
-            task.description = form.cleaned_data['description']
-            task.date_end = form.cleaned_data['date_end']
-            task.save()
-        return redirect('/Tareas')
-    #return render(request, 'update_task.html')
-
-def delete_tasks(request, id):
-    if request.method == 'GET':
-        task = Task_list.objects.get(id= id)
-        return render(request, 'delete_task.html',{
-            'form' : DeleteTask()
-        })
-    else:
-        form = DeleteTask(request.POST)
-        if form.is_valid():
-            task_id = form.cleaned_data['task_id']
-            task = get_object_or_404(Task_list, id=task_id)
-            task.delete()
-        return redirect('/Tareas')
-
     
-def create_tasks(request):
-    if request.method == "GET":
-        return render(request, 'crear_tasks.html',{
-            'form': CreateTask()
+
+def delete_tasks(request, id):    
+    task = get_object_or_404(Task_list, id=id)
+    task.delete()
+    projects = list(Task_list.objects.values())
+    return render(request, 'task.html', {
+        'projects' : projects
+    })
+
+
+def update_task(request, task_id):
+    if request.method == 'GET':
+        task = get_object_or_404(Task_list, id = task_id)
+
+        return render(request, 'update_task.html',{
+            'form': UpdateTask(instance= task)
         })
-    else:    
-        Task_list.objects.filter()(name= request.POST['name'], description = request.POST['description'] ,date_end= request.POST['date_end'])
-        return redirect('/Tareas')
+    if request.method == "POST":
+        print(task_id)
+        Task_list.objects.filter(id=task_id).update(name= request.POST['name'], description = request.POST['description'] ,date_end= request.POST['date_end'])
+        return redirect("/Tareas")
+        # return JsonResponse({"message": f"Tarea {task_id} cambiada"})
+    
+    
