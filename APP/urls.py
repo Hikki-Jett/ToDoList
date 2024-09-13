@@ -16,14 +16,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from task.views import main, task, create_tasks, update_task, delete_tasks, change_state_task
+# from task.views import main, task, create_tasks, update_task, delete_tasks, change_state_task
+from task import viewsApi
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('', main,name='main'),
+#     path('Tareas', task, name='task' ),
+#     path('Crear', create_tasks, name='crear_tasks'),
+#     path('Actualizar_Tarea/<int:task_id>', update_task, name= 'Actualizar_Tarea'),
+#     path('Eliminar_Tarea/<int:id>', delete_tasks, name='Eliminar_Tarea'),
+#     path('Marcar_tarea/<int:task_id>', change_state_task, name='Marcar_tarea')
+# ]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main,name='main'),
-    path('Tareas', task, name='task' ),
-    path('Crear', create_tasks, name='crear_tasks'),
-    path('Actualizar_Tarea/<int:task_id>', update_task, name= 'Actualizar_Tarea'),
-    path('Eliminar_Tarea/<int:id>', delete_tasks, name='Eliminar_Tarea'),
-    path('Marcar_tarea/<int:task_id>', change_state_task, name='Marcar_tarea')
+    path('api/create_task', viewsApi.create_task, name="create_task"),
+    path('api/get_all_tasks', viewsApi.get_all_tasks, name="get_all_tasks"),
+    path('api/get_task_by_id/<int:task_id>', viewsApi.get_task_by_id, name="get_task_by_id"),
+    path('api/delete_task', viewsApi.delete_task, name="delete_task"),
+    path('api/delete_task_by_id/<int:task_id>', viewsApi.delete_task_by_id, name="delete_task_by_id"),
+    path('api/udpate_task', viewsApi.udpate_task, name="udpate_task"),
+
 ]
