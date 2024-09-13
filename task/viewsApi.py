@@ -1,9 +1,10 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.middleware.csrf import get_token
 from .models import Task_list
 import json
 
-@csrf_exempt
+@csrf_protect
 def create_task(request):
     if request.method == "POST":
         data_post = json.loads(request.body)
@@ -24,7 +25,7 @@ def create_task(request):
     return JsonResponse({"error": "El method es incorrecto"})
 
 
-@csrf_exempt
+@csrf_protect
 def get_all_tasks(request):
     if request.method == "GET":
         tasks = Task_list.objects.all()
@@ -35,7 +36,7 @@ def get_all_tasks(request):
     return JsonResponse({"error": "El method es incorrecto"})
 
 
-@csrf_exempt
+@csrf_protect
 def get_task_by_id(request, task_id):
     if request.method == "GET":
         try:
@@ -55,7 +56,7 @@ def get_task_by_id(request, task_id):
 
     return JsonResponse({"error": "El method es incorrecto"})
 
-@csrf_exempt
+@csrf_protect
 def delete_task(request):
     if request.method == "DELETE":
         try:
@@ -78,7 +79,7 @@ def delete_task(request):
     return JsonResponse({"error": "El method es incorrecto"})
 
 
-@csrf_exempt
+@csrf_protect
 def delete_task_by_id(request, task_id):
     if request.method == "DELETE":
         try:
@@ -98,7 +99,7 @@ def delete_task_by_id(request, task_id):
             return JsonResponse({"error": "No se encontro la tarea para eliminar"})
     return JsonResponse({"error": "El method es incorrecto"})
 
-@csrf_exempt
+@csrf_protect
 def udpate_task(request):
     if request.method == "PUT":
         try:
@@ -120,3 +121,8 @@ def udpate_task(request):
         except:
             return JsonResponse({"error": "No se encontro la tarea para editar"})
     return JsonResponse({"error": "El method es incorrecto"})
+
+@csrf_exempt
+def get_token_csrf(request):
+    token = get_token(request)
+    return JsonResponse({"token": token})

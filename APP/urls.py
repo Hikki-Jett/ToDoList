@@ -36,5 +36,5 @@ urlpatterns = [
     path('api/delete_task', viewsApi.delete_task, name="delete_task"),
     path('api/delete_task_by_id/<int:task_id>', viewsApi.delete_task_by_id, name="delete_task_by_id"),
     path('api/udpate_task', viewsApi.udpate_task, name="udpate_task"),
-
+    path('api/get_token_csrf', viewsApi.get_token_csrf, name="get_token_csrf"),
 ]
